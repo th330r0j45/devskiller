@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output,inject } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output,inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { RegistrationData } from '../model/registration-data';
 import { FormBuilder } from '@angular/forms';
@@ -39,24 +39,28 @@ export class RegistrationComponent implements OnInit {
   show: boolean;
   constructor(
     private fb: FormBuilder,
-    private originsService:OriginsService
+    private originsService:OriginsService,
+    private cd:ChangeDetectorRef
   ) { }
   public ngOnInit() {
-    this.getData()
+    this.getData();
   }
   getData(){
-    this.origins = this.originsService.origins
+    this.origins = this.originsService.origins;
   }
 
   onSelectionChange(event: any): void {
-    const selectedOption = event.value;
+    let selectedOption = event.value;
     if (selectedOption == 'Other, specify') {
       this.show = true;
       this.registrationFormGroup.get('origin.originOther')?.setValidators([Validators.required]);
       this.registrationFormGroup.updateValueAndValidity();
+      this.cd.detectChanges();
     }else{
       this.show = false;
       this.registrationFormGroup.get('origin.originOther')?.clearValidators();
+      this.registrationFormGroup.updateValueAndValidity();
+      this.cd.detectChanges();
     }
   }
 
