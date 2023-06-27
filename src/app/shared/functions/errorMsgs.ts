@@ -64,6 +64,8 @@ export function getErrorMsgGroup(form: FormGroup, formGroupName: string, field: 
          if (group.hasError('required'))
              message = '*This field is required';
          else if (group.hasError('pattern'))
+             message = '*The field must have a valid format';
+         else if (group.hasError('pattern') && group.hasError('email'))
              message = '*The email must have a valid format';
          else if (group.hasError('minlength')) {
              let errorContent = group.getError('minlength');
