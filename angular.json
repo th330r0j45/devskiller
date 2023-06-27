@@ -16,7 +16,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/devskiller-angular-reactive-forms",
+            "outputPath": "dist/devskiller",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
