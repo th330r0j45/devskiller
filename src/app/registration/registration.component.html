@@ -1,57 +1,74 @@
+<div class="container mx-auto">
 
-
-  <form [formGroup]="registrationFormGroup" (ngSubmit)="send()">
+  <form [formGroup]="registrationFormGroup" (ngSubmit)="send()" class="w-auto">
+    <p class="fs-3 fw-semibold text-center pb-4 text-uppercase">Register Form</p>
     <mat-form-field>
-        <mat-label>firstName:</mat-label>
-        <input matInput type="text" formControlName="firstName" required>
+      <mat-label>firstName:</mat-label>
+      <input matInput type="text" formControlName="firstName" required>
+      <mat-error *ngIf="errors(registrationFormGroup,'firstName')">
+        {{errorMsg(registrationFormGroup,
+        'firstName')}}
+      </mat-error>
     </mat-form-field>
     <mat-form-field>
-        <mat-label>lastName:</mat-label>
-        <input matInput type="text" formControlName="lastName" required>
+      <mat-label>lastName:</mat-label>
+      <input matInput type="text" formControlName="lastName" required>
+      <mat-error *ngIf="errors(registrationFormGroup,'lastName')">
+        {{errorMsg(registrationFormGroup,
+        'lastName')}}
+      </mat-error>
     </mat-form-field>
     <mat-form-field>
-        <mat-label>email:</mat-label>
-        <input matInput type="email" formControlName="email" required>
-        <mat-error *ngIf="registrationFormGroup.dirty || registrationFormGroup.touched" id=”emailErrorMessage”>
-            The email address is invalid
-        </mat-error>
-        <!-- <mat-error *ngIf="registrationFormGroup.invalid" id=”emailErrorMessage”>
-            Please enter the email address
-        </mat-error> -->
+      <mat-label>email:</mat-label>
+      <input matInput type="email" formControlName="email" required>
+      <mat-error *ngIf="registrationFormGroup.dirty || registrationFormGroup.touched" id=”emailErrorMessage”>
+        The email address is invalid
+      </mat-error>
+      <mat-error *ngIf="registrationFormGroup.invalid" id=”emailErrorMessage”>
+        Please enter the email address
+      </mat-error>
+      <mat-error *ngIf="errors(registrationFormGroup,'email')">
+        {{errorMsg(registrationFormGroup,
+        'email')}}
+      </mat-error>
     </mat-form-field>
     <mat-form-field formGroupName="origin">
-        <mat-label>originSelect:</mat-label>
-        <mat-select formControlName="originSelect" (selectionChange)="onSelectionChange($event)" required>
-          <mat-option *ngFor="let option of origins | async" [value]="option">
-            {{option}}
-          </mat-option>
-        </mat-select>
+      <mat-label>originSelect:</mat-label>
+      <mat-select formControlName="originSelect" (selectionChange)="onSelectionChange($event)" required>
+        <mat-option *ngFor="let option of origins | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="errorsGroup(registrationFormGroup,'origin','originSelect')">
+        {{errorMsgGroup(registrationFormGroup,'origin','originSelect')}}
+      </mat-error>
     </mat-form-field>
     <mat-form-field formGroupName="origin" *ngIf="show">
-        <mat-label>originOther:</mat-label>
-        <input matInput type="text" formControlName="originOther">
+      <mat-label>originOther:</mat-label>
+      <input matInput type="text" formControlName="originOther">
+      <mat-error *ngIf="errorsGroup(registrationFormGroup,'origin','originOther')">
+        {{errorMsgGroup(registrationFormGroup,'origin','originOther')}}
+      </mat-error>
     </mat-form-field>
     <mat-form-field class="example-chip-list" id="topicsFormField" formGroupName="origin">
-        <mat-label>Favorite topics</mat-label>
-        <mat-chip-grid #chipGrid aria-label="Enter topics" formControlName="topics" required>
-          <mat-chip-row *ngFor="let topic of topics"
-                        (removed)="remove(topic)"
-                        [editable]="true"
-                        (edited)="edit(topic, $event)"
-                        [aria-description]="'press enter to edit ' + topic.name">
-            {{topic.name}}
-            <button matChipRemove [attr.aria-label]="'remove ' + topic.name">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip-row>
-          <input 
-                placeholder="New..."
-                 [matChipInputFor]="chipGrid"
-                 [matChipInputAddOnBlur]="addOnBlur"
-                 (matChipInputTokenEnd)="add($event)"/>
-        </mat-chip-grid>
-      </mat-form-field>
-      
+      <mat-label>Favorite topics</mat-label>
+      <mat-chip-grid #chipGrid aria-label="Enter topics" formControlName="topics" required>
+        <mat-chip-row *ngFor="let topic of topics" (removed)="remove(topic)" [editable]="true"
+          (edited)="edit(topic, $event)" [aria-description]="'press enter to edit ' + topic.name">
+          {{topic.name}}
+          <button matChipRemove [attr.aria-label]="'remove ' + topic.name">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        <input placeholder="New..." [matChipInputFor]="chipGrid" [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)" />
+      </mat-chip-grid>
+      <mat-error *ngIf="errorsGroup(registrationFormGroup,'origin','topics')">
+        {{errorMsgGroup(registrationFormGroup,'origin','topics')}}
+      </mat-error>
+    </mat-form-field>
+
     <button mat-raised-button color="primary" type="submit" [disabled]="registrationFormGroup.invalid">Register</button>
 
-</form>
+  </form>
+</div>

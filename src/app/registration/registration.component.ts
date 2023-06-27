@@ -7,6 +7,7 @@ import { OriginsService } from '../origins.service';
 import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { formErrors, formErrorsArray, formErrorsGroup, getErrorMsg, getErrorMsgArray, getErrorMsgGroup } from '../shared/functions/errorMsgs';
 
 export interface Topic {
   name: string;
@@ -33,7 +34,7 @@ export class RegistrationComponent implements OnInit {
     origin:this.fb.group({
       originSelect:[null,[Validators.required]],
       originOther:['',[]],
-      topics:[this.topics]
+      topics:[this.topics,[Validators.required]]
     })
   })
   show: boolean;
@@ -105,5 +106,22 @@ export class RegistrationComponent implements OnInit {
     let form = this.registrationFormGroup.value 
     this.onRegister.emit(form);
   }
-
+  errors(form: FormGroup, control: string) {
+    return formErrors(form, control);
+  }
+  errorsGroup(form: FormGroup, formGroupName: string,  field: string): boolean | undefined {
+    return formErrorsGroup(form,formGroupName,field)
+  }
+  errorsArray(form: FormGroup, formArrayName: string, index: number, field: string): boolean | undefined {
+    return formErrorsArray(form,formArrayName,index,field)
+  }
+  errorMsg(form: FormGroup, control: string) {
+    return getErrorMsg(form, control);
+  }
+  errorMsgGroup(form: FormGroup, formGroupName:string, field: string): string | null {
+    return getErrorMsgGroup(form,formGroupName, field);
+  }
+  errorMsgArray(form: FormGroup, formArrayName: string, index: number, field: string): string | null {
+    return getErrorMsgArray(form, formArrayName, index, field);
+  }
 }
