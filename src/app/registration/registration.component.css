@@ -1,0 +1,11 @@
+form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  margin: 40px;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
