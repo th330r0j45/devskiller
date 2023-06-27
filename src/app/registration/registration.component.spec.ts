@@ -144,7 +144,7 @@ describe('RegistrationComponent', () => {
         control.markAsTouched();
         fixture.detectChanges();
 
-        // expect(errorMessageElement().nativeElement.innerText).toEqual('The email address is invalid');
+        expect(errorMessageElement().nativeElement.innerText).toEqual('The email address is invalid');
       });
     });
   });
@@ -182,13 +182,13 @@ describe('RegistrationComponent', () => {
         const groupControl = originOriginGroupControl();
         const control = originSelectControl();
 
-        // expect(groupControl.getError('required')).toBeTruthy();
+        expect(groupControl.getError('required')).toBeTruthy();
 
         control.setValue('some place');
         expect(groupControl.getError('required')).toBeFalsy();
 
         control.setValue('');
-        // expect(groupControl.getError('required')).toBeTruthy();
+        expect(groupControl.getError('required')).toBeTruthy();
       });
 
       it('should have options coming from service', (done) => {
@@ -208,13 +208,13 @@ describe('RegistrationComponent', () => {
           fixture.detectChanges();
         });
 
-        // it('should be found by formControlName', () => {
-        //   expect(fieldElement()).toBeTruthy();
-        // });
+        it('should be found by formControlName', () => {
+          expect(fieldElement()).toBeTruthy();
+        });
 
-        // it('should be marked as required in html', () => {
-        //   expect(fieldElement().attributes.hasOwnProperty('required')).toBeTrue();
-        // });
+        it('should be marked as required in html', () => {
+          expect(fieldElement().attributes.hasOwnProperty('required')).toBeTrue();
+        });
       });
 
       describe('when originSelect is NOT set to other origin', () => {
@@ -227,79 +227,79 @@ describe('RegistrationComponent', () => {
     });
   });
 
-  // describe('topics chips', () => {
-  //   const topicsInputElement = () => fixture.debugElement.query(By.css('#topicsFormField input'));
-  //   const addTopic = (topic) => {
-  //     topicsInputElement().nativeElement.value = topic;
-  //     const keyboardEvent = new KeyboardEvent('keydown', {keyCode: ENTER} as any);
-  //     topicsInputElement().nativeElement.dispatchEvent(keyboardEvent);
-  //     fixture.detectChanges();
-  //   };
+  describe('topics chips', () => {
+    const topicsInputElement = () => fixture.debugElement.query(By.css('#topicsFormField input'));
+    const addTopic = (topic) => {
+      topicsInputElement().nativeElement.value = topic;
+      const keyboardEvent = new KeyboardEvent('keydown', {keyCode: ENTER} as any);
+      topicsInputElement().nativeElement.dispatchEvent(keyboardEvent);
+      fixture.detectChanges();
+    };
 
-  //   it('should add topics', () => {
-  //     addTopic('cars');
-  //     addTopic('football');
+    it('should add topics', () => {
+      addTopic('cars');
+      addTopic('football');
 
-  //     expect(component.registrationFormGroup.get('topics').value).toEqual(['cars', 'football']);
-  //   });
-  // });
+      expect(component.registrationFormGroup.get('topics').value).toEqual(['cars', 'football']);
+    });
+  });
 
-  // describe('submit button', () => {
-  //   const submitButton = () => fixture.debugElement.query(By.css('button'));
+  describe('submit button', () => {
+    const submitButton = () => fixture.debugElement.query(By.css('button'));
 
-  //   const fillTheFormCorrectly = (originSelect: string = OTHER_ORIGIN) => component.registrationFormGroup.setValue({
-  //     firstName: 'John',
-  //     lastName: 'Doe',
-  //     email: 'john@doe.com',
-  //     origin: {
-  //       originSelect,
-  //       originOther: 'my aunt Debbie',
-  //     },
-  //     topics: ['cars', 'football'],
-  //   });
+    const fillTheFormCorrectly = (originSelect: string = OTHER_ORIGIN) => component.registrationFormGroup.setValue({
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@doe.com',
+      origin: {
+        originSelect,
+        originOther: 'my aunt Debbie',
+      },
+      topics: ['cars', 'football'],
+    });
 
-  //   it('should be enabled only if the form is valid', () => {
-  //     expect(submitButton().attributes.hasOwnProperty('disabled')).toBeTrue();
+    it('should be enabled only if the form is valid', () => {
+      expect(submitButton().attributes.hasOwnProperty('disabled')).toBeTrue();
 
-  //     fillTheFormCorrectly();
-  //     fixture.detectChanges();
+      fillTheFormCorrectly();
+      fixture.detectChanges();
 
-  //     expect(submitButton().attributes.hasOwnProperty('disabled')).toBeFalse();
-  //   });
+      expect(submitButton().attributes.hasOwnProperty('disabled')).toBeFalse();
+    });
 
-  //   describe('when clicked, should emit an event containing', () => {
-  //     const testField = (fieldName, expectedValue, done, originSelect?) => {
-  //       fillTheFormCorrectly(originSelect);
-  //       fixture.detectChanges();
+    describe('when clicked, should emit an event containing', () => {
+      const testField = (fieldName, expectedValue, done, originSelect?) => {
+        fillTheFormCorrectly(originSelect);
+        fixture.detectChanges();
 
-  //       component.onRegister.pipe(take(1)).subscribe(formValue => {
-  //         expect(formValue[fieldName]).toEqual(expectedValue);
-  //         done();
-  //       });
+        component.onRegister.pipe(take(1)).subscribe(formValue => {
+          expect(formValue[fieldName]).toEqual(expectedValue);
+          done();
+        });
 
-  //       submitButton().nativeElement.click();
-  //       fixture.detectChanges();
-  //     };
+        submitButton().nativeElement.click();
+        fixture.detectChanges();
+      };
 
-  //     it('firstName', (done) => {
-  //       testField('firstName', 'John', done);
-  //     });
+      it('firstName', (done) => {
+        testField('firstName', 'John', done);
+      });
 
-  //     it('lastName', (done) => {
-  //       testField('lastName', 'Doe', done);
-  //     });
+      it('lastName', (done) => {
+        testField('lastName', 'Doe', done);
+      });
 
-  //     it('email', (done) => {
-  //       testField('email', 'john@doe.com', done);
-  //     });
+      it('email', (done) => {
+        testField('email', 'john@doe.com', done);
+      });
 
-  //     it('origin set to originSelect value', (done) => {
-  //       testField('origin', 'Facebook', done, 'Facebook');
-  //     });
+      it('origin set to originSelect value', (done) => {
+        testField('origin', 'Facebook', done, 'Facebook');
+      });
 
-  //     it('topics', (done) => {
-  //       testField('topics', ['cars', 'football'], done);
-  //     });
-  //   });
-  // });
+      it('topics', (done) => {
+        testField('topics', ['cars', 'football'], done);
+      });
+    });
+  });
 });

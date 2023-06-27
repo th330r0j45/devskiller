@@ -24,7 +24,7 @@ export class RegistrationComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-  topics: Topic[] = [];
+  topics: Topic[] = [{name: 'Angular'}, {name: 'React'}, {name: 'VueJS'}];
   origins: any;
   registrationFormGroup: FormGroup = this.fb.group({
     firstName: [null, [Validators.required]],
