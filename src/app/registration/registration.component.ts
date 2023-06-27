@@ -28,8 +28,8 @@ export class RegistrationComponent implements OnInit {
   topics: Topic[] = [{name: 'Angular'}, {name: 'React'}, {name: 'VueJS'}];
   origins: any;
   registrationFormGroup: FormGroup = this.fb.group({
-    firstName: [null, [Validators.required]],
-    lastName: [null, [Validators.required]],
+    firstName: [null, [Validators.required,Validators.pattern(/^\S*$/)]],
+    lastName: [null,  [Validators.required,Validators.pattern(/^\S*$/)]],
     email: [null, [Validators.required,Validators.email]],
     origin:this.fb.group({
       originSelect:[null,[Validators.required]],
@@ -54,7 +54,7 @@ export class RegistrationComponent implements OnInit {
     let selectedOption = event.value;
     if (selectedOption == 'Other, specify') {
       this.show = true;
-      this.registrationFormGroup.get('origin.originOther')?.setValidators([Validators.required]);
+      this.registrationFormGroup.get('origin.originOther')?.setValidators([Validators.required,Validators.pattern(/^\S*$/)]);
       this.registrationFormGroup.updateValueAndValidity();
       this.cd.detectChanges();
     }else{
