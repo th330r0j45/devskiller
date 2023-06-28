@@ -13,6 +13,7 @@ import { take } from 'rxjs/operators';
 import { MatChipsModule } from '@angular/material/chips';
 import { ENTER } from '@angular/cdk/keycodes';
 import { MatIconModule } from '@angular/material/icon';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('RegistrationComponent', () => {
   let component: RegistrationComponent;
@@ -28,7 +29,11 @@ describe('RegistrationComponent', () => {
         MatButtonModule,
         MatSelectModule,
         MatChipsModule,
-        MatIconModule
+        MatIconModule,
+        ToastrModule.forRoot({
+          positionClass: 'toast-bottom-center',
+          preventDuplicates: true,
+        })
       ],
       declarations: [RegistrationComponent],
     })
