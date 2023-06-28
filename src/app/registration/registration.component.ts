@@ -8,6 +8,7 @@ import { MatChipEditedEvent, MatChipInputEvent } from '@angular/material/chips';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { formErrors, formErrorsArray, formErrorsGroup, getErrorMsg, getErrorMsgArray, getErrorMsgGroup } from '../shared/functions/errorMsgs';
+import { ToastrService } from 'ngx-toastr';
 
 export interface Topic {
   name: string;
@@ -28,8 +29,8 @@ export class RegistrationComponent implements OnInit {
   topics: Topic[] = [{name: 'Angular'}, {name: 'React'}, {name: 'VueJS'}];
   origins: any;
   registrationFormGroup: FormGroup = this.fb.group({
-    firstName: [null, [Validators.required,Validators.pattern(/^\S*$/)]],
-    lastName: [null,  [Validators.required,Validators.pattern(/^\S*$/)]],
+    firstName: [null, [Validators.required,Validators.pattern('([a-zA-Z]+)')]],
+    lastName: [null,  [Validators.required,Validators.pattern('([a-zA-Z]+) ?([a-zA-Z]+)')]],
     email: [null, [Validators.required,Validators.email]],
     origin:this.fb.group({
       originSelect:[null,[Validators.required]],
@@ -41,7 +42,8 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private originsService:OriginsService,
-    private cd:ChangeDetectorRef
+    private cd:ChangeDetectorRef,
+    private toastr: ToastrService
   ) { }
   public ngOnInit() {
     this.getData();
@@ -54,7 +56,7 @@ export class RegistrationComponent implements OnInit {
     let selectedOption = event.value;
     if (selectedOption == 'Other, specify') {
       this.show = true;
-      this.registrationFormGroup.get('origin.originOther')?.setValidators([Validators.required,Validators.pattern(/^\S*$/)]);
+      this.registrationFormGroup.get('origin.originOther')?.setValidators([Validators.required,Validators.pattern('([a-zA-Z]+) ?([a-zA-Z]+)')]);
       this.registrationFormGroup.updateValueAndValidity();
       this.cd.detectChanges();
     }else{
@@ -105,6 +107,11 @@ export class RegistrationComponent implements OnInit {
   send(){
     let form = this.registrationFormGroup.value 
     this.onRegister.emit(form);
+    this.toastr.success('📩', 'Send',{
+      closeButton:true,
+      progressBar:true,
+      toastClass: 'bg-success ngx-toastr'
+    });
   }
   errors(form: FormGroup, control: string) {
     return formErrors(form, control);
